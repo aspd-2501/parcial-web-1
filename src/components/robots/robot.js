@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 function Robot(props) {
  return (
    <Card style={{ width: "18rem", height: "24rem" }} className="mb-3">
-    <td>{props.offer.name}</td>
+    <td>{props.robot.nombre}</td>
      {/* <Card.Img
        style={{ height: "14rem" }}
        variant="top"
