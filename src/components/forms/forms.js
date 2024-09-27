@@ -5,7 +5,6 @@ function Forms() {
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
-    favClass: "1",
   });
   const [validationStates, setValidationStates] = useState({
     emailState: true,
@@ -18,16 +17,11 @@ function Forms() {
 
   const handlePasswordChange = (e) => {
     setFormValues({ ...formValues, password: e.target.value });
-    validatePasswordState();
-  };
-
-  const handleSelectChange = (e) => {
-    setFormValues({ ...formValues, favClass: e.target.value });
   };
 
   const clickSubmit = () => {
     console.log(formValues);
-    validationStates.emailState
+    validationStates.emailState && validationStates.passwordState
       ? alert("Formulario enviado")
       : alert("Error de autenticación. Revise sus credenciales");
   };
@@ -46,6 +40,10 @@ function Forms() {
     formValues.password.match(/[a-zA-Z]/)
       ? setValidationStates({ ...validationStates, passwordState: true })
       : setValidationStates({ ...validationStates, passwordState: false });
+  };
+
+  const clickErase = () => {
+    setFormValues({ email: "", password: ""});
   };
 
   return (
@@ -93,7 +91,7 @@ function Forms() {
             </Button>
           </Col>
           <Col>
-            <Button variant="primary" onClick={clickSubmit}>
+            <Button variant="primary" onClick={clickErase}>
               Cancelar
             </Button>
           </Col>

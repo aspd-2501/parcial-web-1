@@ -1,9 +1,8 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Detail from "./components/detail/detail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Forms from "./components/forms/forms";
 import Header from "./components/header/header";
+import Robots from './components/robots/robots';
 
 function App() {
   return (
@@ -13,7 +12,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Forms />} />
-          <Route path="/detail" element={<Detail />} />
+          <Route path="/robots" element={<Robots/>} />
         </Routes>
         </header>
       </div>

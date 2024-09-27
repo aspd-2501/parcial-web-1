@@ -6,25 +6,27 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
-function Mascota(props) {
+function Robot(props) {
  return (
    <Card style={{ width: "18rem", height: "24rem" }} className="mb-3">
-     <Card.Img
+    <td>{props.offer.name}</td>
+     {/* <Card.Img
        style={{ height: "14rem" }}
        variant="top"
-       src={props.mascota.foto}
-       alt={props.mascota.descripcion}
-     />
+       src={props.robot.foto}
+       alt={props.robot.descripcion}
+     /> */}
      <Card.Body>
        <Card.Title>
-         <Link to={"/mascotas/" + props.mascota.id}>
-           {props.mascota.nombre}
+         <Link to={"/robots/" + props.robot.id}>
          </Link>
        </Card.Title>
-       <Card.Text>{props.mascota.descripcion}</Card.Text>
+       <Card.Text>{props.robot.anio}</Card.Text>
+       <Card.Text>{props.robot.processing}</Card.Text>
+       <Card.Text>{props.robot.humor}</Card.Text>
      </Card.Body>
    </Card>
  );
 }
 
-export default Mascota;
+export default Robot;
