@@ -10,7 +10,7 @@ function Header() {
           <h1 className="text-title">Adopta un Robot con Robot Lovers!</h1>
         </div>
         <hr className="custom-hr"></hr>
-        <Image src={Robots} fluid alt="robots" responsive="true"/>
+        <Image src={Robots} fluid alt="robots"/>
         <hr className="custom-hr"></hr>
       </Col>
     </Row>

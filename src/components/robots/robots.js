@@ -11,7 +11,7 @@ const Robots = () => {
 
   useEffect(() => {
     fetch("http://localhost:3001/robots")
-      .then((response) => response.json())
+      .then((data) => data.json())
       .then((data) => setRobots(data));
   }, []);
 

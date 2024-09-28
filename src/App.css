@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  justify-content: left;
+  align-items: left;
 }
 
 .App-logo {
@@ -15,6 +17,7 @@
   font-size: calc(10px + 2vmin);
   margin-left: 2rem;
   margin: 2rem;
+  justify-content: left;
 }
 
 .App-link {

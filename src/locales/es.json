@@ -4,5 +4,12 @@
     "empresaFabricante": "Empresa fabricante",
     "añoFabricacion": "Año de fabricación", 
     "capacidadProcesamiento": "Capacidad de procesamiento",
-    "humor": "Humor"
+    "humor": "Humor",
+    "mensajeError": "Error de autenticación. Revise sus credenciales",
+    "ingresar": "Ingresar",
+    "cancelar": "Cancelar",
+    "login": "Inicio de sesión",
+    "usuario": "Nombre de usuario",
+    "password": "Contraseña"
+
 }

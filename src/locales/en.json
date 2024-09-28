@@ -4,5 +4,11 @@
     "empresaFabricante": "Manufacturer",
     "añoFabricacion": "Year of manufacture", 
     "capacidadProcesamiento": "Processing capacity",
-    "humor": "Mood"
+    "humor": "Mood",
+    "mensajeError": "Autentication error. Check your credentials",
+    "ingresar": "Submit",
+    "cancelar": "Cancel",
+    "login": "Login",
+    "usuario": "Username",
+    "password": "Password"
 }

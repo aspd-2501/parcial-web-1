@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Col, Form, Button, Alert } from "react-bootstrap";
 import "./forms.css";
 import { useNavigate } from "react-router-dom";
+import { useIntl, FormattedMessage } from "react-intl";
 
 function Forms() {
+  const intl = useIntl();
   const navegate = useNavigate();
+
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -21,13 +24,16 @@ function Forms() {
   const handlePasswordChange = (e) => {
     setFormValues({ ...formValues, password: e.target.value });
   };
-  
+
   const handleLogin = () => {
     navegate("/robots");
-  }
+  };
+
+  const clickErase = () => {
+    setFormValues({ email: "", password: "" });
+  };
 
   const clickSubmit = () => {
-    // Crear objeto con credenciales
     const loginData = {
       login: formValues.email,
       password: formValues.password,
@@ -41,78 +47,75 @@ function Forms() {
       },
       body: JSON.stringify(loginData),
     })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json(); // Retorna los datos en formato JSON si es éxito
-        } else if (response.status === 401) {
-          throw new Error("Credenciales incorrectas");
-        } else {
-          throw new Error("Ocurrió un error inesperado");
-        }
-      })
-      .then((data) => {
-        if (data.status === "success") {
+      .then((response) => response.json())
+      .then((loginData) => {
+        console.log(loginData);
+
+        if (loginData.status === "success") {
           setShowSuccess(true); // Mostrar mensaje de éxito
-          setShowError(false);  // Ocultar mensaje de error
+          setShowError(false); // Ocultar mensaje de error
           handleLogin();
+        } else {
+          setErrorMessage(intl.formatMessage({ id: "mensajeError" }));
+          setShowError(true); // Mostrar mensaje de error
+          setShowSuccess(false); // Ocultar mensaje de éxito
         }
       })
       .catch((error) => {
-        setErrorMessage(error.message);
-        setShowError(true);     // Mostrar mensaje de error
-        setShowSuccess(false);  // Ocultar mensaje de éxito
+        console.error("Error fetching data:", error);
       });
-  };
-
-  const clickErase = () => {
-    setFormValues({ email: "", password: "" });
   };
 
   return (
     <div className="form-container">
       <Col md={6} className="form-wrapper">
-        <h1 className="form-header mb-4">Inicio de sesión</h1>
-        <Form>
-        <Form.Group className="form-input">
-            <Form.Label className="text">Nombre de usuario</Form.Label>
+        <h1 className="form-header mb-4">
+          <FormattedMessage id="login" />
+        </h1>
+        <Form className="form-component">
+          <Form.Group className="form-input">
+            <Form.Label className="text">
+              <FormattedMessage id="usuario" />
+            </Form.Label>
             <br />
             <Form.Control
               type="email"
               onChange={handleEmailChange}
               value={formValues.email}
+              className="form-control"
+              isInvalid={showError}
+              style={{ backgroundColor: "#D9D9D9", borderRadius: "0%" }}
             />
           </Form.Group>
-
           <Form.Group className="form-input">
-            <Form.Label className="text">Contraseña</Form.Label>
+            <Form.Label className="text">
+              <FormattedMessage id="password" />
+            </Form.Label>
             <br />
             <Form.Control
               type="password"
               onChange={handlePasswordChange}
               value={formValues.password}
+              className="form-control"
+              isInvalid={showError}
+              style={{ backgroundColor: "#D9D9D9"}}
             />
           </Form.Group>
-          {showError && (
-            <Alert variant="danger" className="mt-3">
-              Error de autenticación. Revise sus credenciales
-            </Alert>
-          )}
-          <div className="form-buttons mt-4">
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={clickSubmit}
-            >
-              Ingresar
+          <div className="form-buttons">
+            <Button variant="primary" size="lg" onClick={clickSubmit}>
+              <FormattedMessage id="ingresar" />
             </Button>
-            <Button
-              variant="danger"
-              size="lg"
-              onClick={clickErase}
-            >
-              Cancelar
+            <Button variant="danger" size="lg" onClick={clickErase}>
+              <FormattedMessage id="cancelar" />
             </Button>
           </div>
+          {showError && (
+            <Alert variant="danger" className="mt-3">
+              <p className="error">
+                <FormattedMessage id="mensajeError" />
+              </p>
+            </Alert>
+          )}
         </Form>
       </Col>
     </div>
