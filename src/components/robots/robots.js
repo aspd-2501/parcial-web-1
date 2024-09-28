@@ -59,7 +59,7 @@ const Robots = () => {
             </tbody>
           </table>
         </Col>
-        <Col md={8}>
+        <Col md={9}>
           {visible && <Robot id={robotId} />}
         </Col>
       </Row>
