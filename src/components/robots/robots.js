@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Col, Row } from "react-bootstrap";
 import "./robots.css";
-import Robot from "./robot.js"
+import Robot from "./robot.js";
 
 const Robots = () => {
   const [robots, setRobots] = useState([]);
@@ -24,40 +24,45 @@ const Robots = () => {
 
   return (
     <>
-        <Row className="robot-row">
-          <Col md={4}>
-            <table className="table-responsive" variant="dark">
-              <thead className="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">
-                    <FormattedMessage id="Nombre" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="Modelo" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="EmpresaFabricante" />
-                  </th>
+      <Row className="robot-row" >
+        <Col md={4}>
+          <table className="table-responsive" variant="dark">
+            <thead className="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">
+                  <FormattedMessage id="nombre" />
+                </th>
+                <th scope="col">
+                  <FormattedMessage id="modelo" />
+                </th>
+                <th scope="col">
+                  <FormattedMessage id="empresaFabricante" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {robots.map((e) => (
+                <tr
+                  key={e.id}
+                  robot={e}
+                  onClick={() => {
+                    onCardClick(e.id);
+                  }}
+                >
+                  <td>{e.id}</td>
+                  <td>{e.nombre}</td>
+                  <td>{e.modelo}</td>
+                  <td>{e.empresaFabricante}</td>
                 </tr>
-              </thead>
-                {robots.map((e) => (
-                    <tbody onClick={()=> {onCardClick(e.id)}}>
-                  <tr key={e.id} robot={e}>
-                    <td>{e.id}</td>
-                    <td>{e.nombre}</td>
-                    <td>{e.modelo}</td>
-                    <td>{e.empresaFabricante}</td>
-                  </tr>
-                  </tbody>
-                ))}
-            </table>
-          </Col>
-          <Col md={8}>
-            {/* Aquí puedes poner el contenido de la tarjeta o lo que necesites */}
-            {visible && <Robot id={robotId} />}
-          </Col>
-        </Row>
+              ))}
+            </tbody>
+          </table>
+        </Col>
+        <Col md={8}>
+          {visible && <Robot id={robotId} />}
+        </Col>
+      </Row>
     </>
   );
 };

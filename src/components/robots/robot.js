@@ -1,15 +1,30 @@
-import { useParams } from "react-router-dom";
 import Robots from "./robots";
 import Card from "react-bootstrap/Card";
+import { useState, useEffect} from "react";
 
 function Robot(props) {
+
+  const [robot, setRobot] = useState([]);
+  const URL = "http://localhost:3001/robots/"+props.id;
+
+  console.log(props.id)
+  console.log(URL)
+
+  useEffect(() => {
+    fetch(URL)
+      .then((response) => response.json())
+      .then((data) => setRobot(data));
+  }, []);
+
+  console.log(robot)
+
   return (
     <Card style={{ width: "18rem", height: "24rem" }} className="mb-3">
       <Card.Img
        style={{ height: "14rem" }}
        variant="top"
-       src={props.robot.imagen}
-       alt={props.robot.nombre}
+       src={robot.imagen}
+       alt={robot.nombre}
      />
       <Card.Body>
         <Card.Title>{props.robot.nombre}</Card.Title>
