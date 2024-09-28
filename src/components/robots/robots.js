@@ -26,8 +26,8 @@ const Robots = () => {
     <>
         <Row className="robot-row">
           <Col md={4}>
-            <table className="table" onCardClick={onCardClick}>
-              <thead>
+            <table className="table-responsive" variant="dark" onClick={onCardClick}>
+              <thead className="thead-dark">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">

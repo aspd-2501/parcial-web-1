@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
-import { Col, Row, Form, Button, Alert } from "react-bootstrap";
+import { useState } from "react";
+import { Col, Form, Button, Alert } from "react-bootstrap";
 import "./forms.css";
+import { useNavigate } from "react-router-dom";
 
 function Forms() {
+  const navegate = useNavigate();
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
   });
-  const [validationStates, setValidationStates] = useState({
-    emailState: true,
-    passwordState: true,
-  });
+
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleEmailChange = (e) => {
     setFormValues({ ...formValues, email: e.target.value });
@@ -20,33 +21,47 @@ function Forms() {
   const handlePasswordChange = (e) => {
     setFormValues({ ...formValues, password: e.target.value });
   };
+  
+  const handleLogin = () => {
+    navegate("/robots");
+  }
 
   const clickSubmit = () => {
-    validateEmailState();
-    validatePasswordState();
+    // Crear objeto con credenciales
+    const loginData = {
+      login: formValues.email,
+      password: formValues.password,
+    };
 
-    if (validationStates.emailState && validationStates.passwordState) {
-      alert("Formulario enviado");
-      setShowError(false); // Hide the error if the form is valid
-    } else {
-      setShowError(true); // Show the error if the form is invalid
-    }
-  };
-
-  const validateEmailState = () => {
-    formValues.email.includes("@") &&
-    formValues.email.includes(".") &&
-    formValues.email.length > 0
-      ? setValidationStates({ ...validationStates, emailState: true })
-      : setValidationStates({ ...validationStates, emailState: false });
-  };
-
-  const validatePasswordState = () => {
-    formValues.password.length >= 6 &&
-    formValues.password.match(/[0-9]/) &&
-    formValues.password.match(/[a-zA-Z]/)
-      ? setValidationStates({ ...validationStates, passwordState: true })
-      : setValidationStates({ ...validationStates, passwordState: false });
+    // Realizar la solicitud POST
+    fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json(); // Retorna los datos en formato JSON si es éxito
+        } else if (response.status === 401) {
+          throw new Error("Credenciales incorrectas");
+        } else {
+          throw new Error("Ocurrió un error inesperado");
+        }
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          setShowSuccess(true); // Mostrar mensaje de éxito
+          setShowError(false);  // Ocultar mensaje de error
+          handleLogin();
+        }
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+        setShowError(true);     // Mostrar mensaje de error
+        setShowSuccess(false);  // Ocultar mensaje de éxito
+      });
   };
 
   const clickErase = () => {
@@ -55,49 +70,33 @@ function Forms() {
 
   return (
     <div className="form-container">
-      <Col md={6} className="form-wrapper text-center">
+      <Col md={6} className="form-wrapper">
         <h1 className="form-header mb-4">Inicio de sesión</h1>
         <Form>
-        <Form.Group className="form-input" controlId="formBasicEmail">
-            <Form.Label>Nombre de usuario</Form.Label>
+        <Form.Group className="form-input">
+            <Form.Label className="text">Nombre de usuario</Form.Label>
             <br />
             <Form.Control
               type="email"
-              placeholder="Ingrese su email"
               onChange={handleEmailChange}
               value={formValues.email}
-              isInvalid={!validationStates.emailState}
             />
-            {!validationStates.emailState && (
-              <Form.Text className="text-danger">
-                Ingrese un email válido
-              </Form.Text>
-            )}
           </Form.Group>
 
-          <Form.Group className="form-input" controlId="formBasicPassword">
-            <Form.Label>Contraseña</Form.Label>
+          <Form.Group className="form-input">
+            <Form.Label className="text">Contraseña</Form.Label>
             <br />
             <Form.Control
               type="password"
-              placeholder="Ingrese su contraseña"
               onChange={handlePasswordChange}
               value={formValues.password}
-              isInvalid={!validationStates.passwordState}
             />
-            {!validationStates.passwordState && (
-              <Form.Text className="text-danger">
-                Su contraseña debe tener al menos 6 caracteres y contener
-                números y letras.
-              </Form.Text>
-            )}
           </Form.Group>
           {showError && (
             <Alert variant="danger" className="mt-3">
               Error de autenticación. Revise sus credenciales
             </Alert>
           )}
-
           <div className="form-buttons mt-4">
             <Button
               variant="primary"

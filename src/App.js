@@ -9,13 +9,13 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <header className="App-header">
-          <Header />
+        <Header /> {/* Move the header out of the App-header for better control */}
+        <div className="App-header">
           <Routes>
             <Route path="/" element={<Forms />} />
             <Route path="/robots" element={<Robots />} />
           </Routes>
-        </header>
+        </div>
         <Footer />
       </div>
     </BrowserRouter>

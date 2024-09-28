@@ -4,7 +4,7 @@ import Robots from './robots.png';
 
 function Header() {
   return (
-    <Row>
+    <Row responsive="true">
       <Col>
         <div className="page-title">
           <h1 className="text-title">Adopta un Robot con Robot Lovers!</h1>
