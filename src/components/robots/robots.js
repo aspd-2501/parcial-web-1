@@ -26,7 +26,7 @@ const Robots = () => {
     <>
         <Row className="robot-row">
           <Col md={4}>
-            <table className="table-responsive" variant="dark" onClick={onCardClick}>
+            <table className="table-responsive" variant="dark">
               <thead className="thead-dark">
                 <tr>
                   <th scope="col">#</th>
@@ -41,16 +41,16 @@ const Robots = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
                 {robots.map((e) => (
+                    <tbody onClick={()=> {onCardClick(e.id)}}>
                   <tr key={e.id} robot={e}>
                     <td>{e.id}</td>
                     <td>{e.nombre}</td>
                     <td>{e.modelo}</td>
                     <td>{e.empresaFabricante}</td>
                   </tr>
+                  </tbody>
                 ))}
-              </tbody>
             </table>
           </Col>
           <Col md={8}>

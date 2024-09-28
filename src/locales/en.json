@@ -1,12 +1,8 @@
 {
-    "Position": "Position",
-    "Company": "Company",
-    "Salary": "Salary",
-    "City": "City",
-    "PublicationDate": "Publication date",
-    "Views": "Number of views",
-    "Million": "Million", 
-    "Millions": "Million",
-    "BackgroundColor": "black",
-    "Words": "white"
+    "nombre": "Name",
+    "modelo": "Model",
+    "empresaFabricante": "Manufacturer",
+    "añoFabricacion": "Year of manufacture", 
+    "capacidadProcesamiento": "Processing capacity",
+    "humor": "Mood"
 }
