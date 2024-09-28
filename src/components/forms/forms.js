@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Col, Row, Form, Button, Alert } from "react-bootstrap";
+import "./forms.css";
 
 function Forms() {
   const [formValues, setFormValues] = useState({
@@ -10,6 +11,7 @@ function Forms() {
     emailState: true,
     passwordState: true,
   });
+  const [showError, setShowError] = useState(false);
 
   const handleEmailChange = (e) => {
     setFormValues({ ...formValues, email: e.target.value });
@@ -20,10 +22,15 @@ function Forms() {
   };
 
   const clickSubmit = () => {
-    console.log(formValues);
-    validationStates.emailState && validationStates.passwordState
-      ? alert("Formulario enviado")
-      : alert("Error de autenticación. Revise sus credenciales");
+    validateEmailState();
+    validatePasswordState();
+
+    if (validationStates.emailState && validationStates.passwordState) {
+      alert("Formulario enviado");
+      setShowError(false); // Hide the error if the form is valid
+    } else {
+      setShowError(true); // Show the error if the form is invalid
+    }
   };
 
   const validateEmailState = () => {
@@ -43,60 +50,72 @@ function Forms() {
   };
 
   const clickErase = () => {
-    setFormValues({ email: "", password: ""});
+    setFormValues({ email: "", password: "" });
   };
 
   return (
-    <div>
-      <h1>Inicio de sesión</h1>
-      <Form>
-        <Form.Group className="mb-6" controlId="formBasicEmail">
-          <Form.Label>Nombre de usuario</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            onChange={handleEmailChange}
-            value={formValues.email}
-            isInvalid={!validationStates.emailState}
-          />
-          {!validationStates.emailState && (
-            <Form.Text className="text-muted">
-              {" "}
-              Please enter a valid email
-            </Form.Text>
-          )}
-        </Form.Group>
+    <div className="form-container">
+      <Col md={6} className="form-wrapper text-center">
+        <h1 className="form-header mb-4">Inicio de sesión</h1>
+        <Form>
+        <Form.Group className="form-input" controlId="formBasicEmail">
+            <Form.Label>Nombre de usuario</Form.Label>
+            <br />
+            <Form.Control
+              type="email"
+              placeholder="Ingrese su email"
+              onChange={handleEmailChange}
+              value={formValues.email}
+              isInvalid={!validationStates.emailState}
+            />
+            {!validationStates.emailState && (
+              <Form.Text className="text-danger">
+                Ingrese un email válido
+              </Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Contraseña</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            onChange={handlePasswordChange}
-            value={formValues.password}
-            isInvalid={!validationStates.passwordState}
-          />
-          {!validationStates.passwordState && (
-            <Form.Text className="text-muted">
-              {" "}
-              Your password should be have numbers and letters and should be at
-              least 6 characters long
-            </Form.Text>
+          <Form.Group className="form-input" controlId="formBasicPassword">
+            <Form.Label>Contraseña</Form.Label>
+            <br />
+            <Form.Control
+              type="password"
+              placeholder="Ingrese su contraseña"
+              onChange={handlePasswordChange}
+              value={formValues.password}
+              isInvalid={!validationStates.passwordState}
+            />
+            {!validationStates.passwordState && (
+              <Form.Text className="text-danger">
+                Su contraseña debe tener al menos 6 caracteres y contener
+                números y letras.
+              </Form.Text>
+            )}
+          </Form.Group>
+          {showError && (
+            <Alert variant="danger" className="mt-3">
+              Error de autenticación. Revise sus credenciales
+            </Alert>
           )}
-        </Form.Group>
-        <Row>
-          <Col>
-            <Button variant="primary" onClick={clickSubmit}>
+
+          <div className="form-buttons mt-4">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={clickSubmit}
+            >
               Ingresar
             </Button>
-          </Col>
-          <Col>
-            <Button variant="primary" onClick={clickErase}>
+            <Button
+              variant="danger"
+              size="lg"
+              onClick={clickErase}
+            >
               Cancelar
             </Button>
-          </Col>
-        </Row>
-      </Form>
+          </div>
+        </Form>
+      </Col>
     </div>
   );
 }

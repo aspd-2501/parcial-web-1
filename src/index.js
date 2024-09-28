@@ -4,10 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {IntlProvider} from 'react-intl';
+import localeEsMessages from "./locales/es";
+import localeEnMessages from "./locales/en";
+
+const messages = {
+  'en': localeEnMessages,
+  'es': localeEsMessages
+};
+
+const locale = navigator.language.split(/[-_]/)[0];
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <IntlProvider locale="en">
+  <IntlProvider locale={locale} messages={messages[locale]}>
     <App />
   </IntlProvider>
 );
