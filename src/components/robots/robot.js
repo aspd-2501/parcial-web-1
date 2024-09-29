@@ -6,7 +6,7 @@ import { FormattedMessage} from "react-intl";
 function Robot(props) {
   const [robot, setRobot] = useState([]);
   const URL = "http://localhost:3001/robots/" + props.id;
-  const imageURL = "https://raw.githubusercontent.com/fai-aher/T34-Wiki-Backup/main/images/robot"+ props.id + ".png";
+  const imageURL = "https://github.com/isis3710-uniandes/202420_S1_Parcial1_Back/blob/master/images/robot"+ props.id + ".png";
   
   fetch(URL)
     .then((data) => data.json())
